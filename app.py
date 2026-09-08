@@ -101,12 +101,12 @@ if submit:
     else:
         st.session_state.history.append(guess_int)
 
-        if st.session_state.attempts % 2 == 0:
-            secret = str(st.session_state.secret)
-        else:
-            secret = st.session_state.secret
-
-        outcome, message = check_guess(guess_int, secret)
+        # Secret used to be cast to a string every other attempt, which made
+        # check_guess fall back to comparing strings (e.g. "9" > "10" is
+        # True lexicographically) and could give the wrong hint direction,
+        # or make it feel like a correct guess was never recognized.
+        # Always compare against the real int secret instead.
+        outcome, message = check_guess(guess_int, st.session_state.secret)
 
         if show_hint:
             st.warning(message)
