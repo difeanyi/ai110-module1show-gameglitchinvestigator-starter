@@ -25,19 +25,38 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+- [x] Describe the game's purpose.
+- [x] Detail which bugs you found.
+- [x] Explain what fixes you applied.
+
+**Purpose:** Glitchy Guesser is a Streamlit number-guessing game. Pick a difficulty, and the app picks a secret number in that range; you guess repeatedly, get a "too high"/"too low" hint after each try, and win by landing on the exact number before you run out of attempts.
+
+**Bugs found:**
+1. The "too high"/"too low" hints were swapped, telling you to go higher when you'd already guessed too high (and vice versa).
+2. The secret number was cast to a string on every other attempt, which made the hint comparison fall back to lexicographic string comparison (e.g. `"9" > "10"`) instead of numeric comparison, giving the wrong hint direction and making it feel like a correct guess was never recognized.
+3. `app.py` had its own duplicate copies of the game logic functions, while the matching functions in `logic_utils.py` were unimplemented and unused, so the game logic wasn't unit tested at all.
+4. Three of the starter tests compared `check_guess`'s return value directly to a plain string, but `check_guess` actually returns a `(outcome, message)` tuple, so those tests were failing even though the logic they were meant to check was correct.
+5. The "New Game 🔁" button calls `st.ren()`, which doesn't exist on the Streamlit API (should be `st.rerun()`) — clicking it currently crashes the app. *(Not yet fixed.)*
+
+**Fixes applied:**
+- Moved the real game logic into `logic_utils.py` and had `app.py` import it, so the logic is unit tested instead of duplicated.
+- Corrected the hint messages in `check_guess` so "Too High" tells you to go lower and "Too Low" tells you to go higher.
+- Removed the string-casting of the secret in `app.py` so guesses are always compared as integers.
+- Fixed the three broken tests to unpack the `(outcome, message)` tuple instead of comparing it to a bare string.
+- Added regression tests covering both hint directions so the swapped-hint bug can't silently come back.
 
 ## 📸 Demo Walkthrough
 
 Describe your fixed game in numbered steps so a reader can follow along without watching a video:
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+1. Install dependencies and launch the app: `python -m streamlit run app.py`. It opens in your browser at `localhost:8501`.
+2. In the sidebar, pick a difficulty (Easy, Normal, or Hard). The range and number of attempts allowed update to match.
+3. Expand "Developer Debug Info" to reveal the secret number, your attempt count, and score as you play.
+4. Type a guess into "Enter your guess" and click "Submit Guess 🚀".
+5. Read the hint: "Go LOWER" appears when your guess is above the secret, and "Go HIGHER" appears when it's below.
+6. Keep guessing and following the hint direction until you land on the exact secret number.
+7. On a correct guess, the app shows balloons, a "You won!" message with your final score, and stops accepting further guesses.
+8. Click "New Game 🔁" to reset with a fresh secret number and play again.
 
 **Screenshot** *(optional)*: <!-- Insert a screenshot of your fixed, winning game here -->
 
@@ -46,7 +65,8 @@ Describe your fixed game in numbered steps so a reader can follow along without 
 ```
 # Paste your pytest output here, e.g.:
 # pytest tests/
-# ========================= X passed in 0.XXs =========================
+tests/test_game_logic.py::test_too_high_hint_tells_player_to_go_lower PASSED [ 50%]
+tests/test_game_logic.py::test_too_low_hint_tells_player_to_go_higher PASSED [100%]
 ```
 
 ## 🚀 Stretch Features

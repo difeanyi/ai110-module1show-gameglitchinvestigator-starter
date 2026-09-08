@@ -43,12 +43,16 @@ Document at least 3 bugs you found. Add rows as needed.
 ## 4. What did you learn about Streamlit and state?
 
 - How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
+- The streamlit rerun helps when running an app that you create. it helps the user be able to play the games mulitiple times without issues.
 
 ---
 
 ## 5. Looking ahead: your developer habits
 
 - What is one habit or strategy from this project that you want to reuse in future labs or projects?
-  - This could be a testing habit, a prompting strategy, or a way you used Git.
+- One habit that i can take from this project is using the terminal Ai to help break down exsisiting code.
+
 - What is one thing you would do differently next time you work with AI on a coding task?
+- One thing i would do diffrently is breaking up task even more to improve effiniency.
 - In one or two sentences, describe how this project changed the way you think about AI generated code.
+- This project made me realize how important it is to understand what you are editind, if you dont understand the code, you cant improve projects.
