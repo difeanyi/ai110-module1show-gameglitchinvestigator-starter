@@ -65,8 +65,18 @@ Describe your fixed game in numbered steps so a reader can follow along without 
 ```
 # Paste your pytest output here, e.g.:
 # pytest tests/
-tests/test_game_logic.py::test_too_high_hint_tells_player_to_go_lower PASSED [ 50%]
-tests/test_game_logic.py::test_too_low_hint_tells_player_to_go_higher PASSED [100%]
+collected 10 items                                                                  
+
+tests/test_game_logic.py::test_winning_guess PASSED                           [ 10%]
+tests/test_game_logic.py::test_guess_too_high PASSED                          [ 20%]
+tests/test_game_logic.py::test_guess_too_low PASSED                           [ 30%]
+tests/test_game_logic.py::test_too_high_hint_tells_player_to_go_lower PASSED  [ 40%]
+tests/test_game_logic.py::test_too_low_hint_tells_player_to_go_higher PASSED  [ 50%]
+tests/test_game_logic.py::test_decimal_guess_is_truncated_not_rounded PASSED  [ 60%]
+tests/test_game_logic.py::test_decimal_guess_truncation_can_give_misleading_hint PASSED [ 70%]
+tests/test_game_logic.py::test_negative_guess_is_accepted_and_treated_as_too_low PASSED [ 80%]
+tests/test_game_logic.py::test_extremely_large_integer_guess_does_not_crash PASSED [90%]
+tests/test_game_logic.py::test_extremely_large_decimal_guess_degrades_gracefully PASSED [100%]
 ```
 
 ## 🚀 Stretch Features
